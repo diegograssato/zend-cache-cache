@@ -1,0 +1,34 @@
+server {
+                listen 81;
+                server_name localhost;
+
+                root /var/www/cache;
+                index /index.php;
+
+                # remove trailing slash, that throws ZF router
+                rewrite ^/(.*)/$ /$1 break;
+
+                location / {
+                        # if file is existing, skip fastcgi parsing
+                        if (-e $request_filename) {
+                                break;
+                        }
+                        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                        fastcgi_keep_conn on;
+
+                        fastcgi_pass 127.0.0.1:9000;
+                        fastcgi_index index.php;
+                        fastcgi_cache_bypass 0;
+                        fastcgi_no_cache 0;
+                        include fastcgi_params;
+                        fastcgi_param SCRIPT_FILENAME /var/www/cache/index.php;
+
+                }
+                location ~* \.(eot|ttf|woff|svg|otf)$ {
+                   add_header Access-Control-Allow-Origin *;
+                }
+                # expires headers on known filetypes
+                location ~* ^.+.(css|js|jpeg|jpg|gif|png|ico) {
+                        expires 30d;
+                }
+    }

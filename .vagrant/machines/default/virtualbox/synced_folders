@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"rsync__auto":true,"type":"rsync","rsync__exclude":".git/","guestpath":"/vagrant","hostpath":"/home/diego/Documentos/Pessoal/zf-cache-test","disabled":false,"auto":true,"exclude":".git/","owner":"vagrant","group":"vagrant"}}}
