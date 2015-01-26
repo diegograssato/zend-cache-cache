@@ -12,7 +12,8 @@
         "zendframework/zendframework": "2.*@stable",
         "doctrine/doctrine-module": "0.*",
         "doctrine/doctrine-mongo-odm-module": "dev-master",
-        "doctrine/doctrine-orm-module": "0.9.*@dev"
+        "doctrine/doctrine-orm-module": "0.9.*@dev",
+        "zf-commons/zfc-user": "dev-master"
 
     },
     "require-dev": {
