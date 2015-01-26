@@ -7,6 +7,7 @@ sudo swapon /swapfile
 sudo echo "/swapfile       none    swap    sw      0       0 " >> /etc/fstab
 sudo chown vagrant:vagrant /swapfile
 sudo chmod 0600 /swapfile
+sudo mkdir -p /var/www
 # Define diretivas que permitirão instalar MySQL sem perguntar senha
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
@@ -84,9 +85,9 @@ EOF
 # Composer
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
+sudo /usr/local/bin/composer self-update
 
 echo "Configurando FPM"
-
 sudo sed -i 's/user = www-data/user = vagrant/g' /etc/php5/fpm/pool.d/www.conf
 sudo sed -i 's/user www-data/user vagrant/g'  /etc/nginx/nginx.conf
 sudo sed -i 's/group = www-data/group = vagrant/g' /etc/php5/fpm/pool.d/www.conf
@@ -162,21 +163,21 @@ opcache.enable_cli=0
 opcache.enable=0
 EOF
 
-unlink /etc/nginx/sites-enabled/default
-cp /vagrant/config/default /etc/nginx/sites-enabled/
-cp /vagrant/config/cache /etc/nginx/sites-enabled/
+sudo unlink /etc/nginx/sites-enabled/default
+sudo cp /vagrant/config/default /etc/nginx/sites-enabled/
+sudo cp /vagrant/config/cache /etc/nginx/sites-enabled/
 
-wget http://phpmemcacheadmin.googlecode.com/files/phpMemcachedAdmin-1.2.2-r262.tar.gz
-mkdir /var/www/cache
-tar -zxvf phpMemcachedAdmin-1.2.2-r262.tar.gz -C /var/www/cache
-rm phpMemcachedAdmin-1.2.2-r262.tar.gz
+sudo wget http://phpmemcacheadmin.googlecode.com/files/phpMemcachedAdmin-1.2.2-r262.tar.gz
+sudo mkdir -p /var/www/cache
+sudo tar -zxf phpMemcachedAdmin-1.2.2-r262.tar.gz -C /var/www/cache
+sudo rm phpMemcachedAdmin-1.2.2-r262.tar.gz
 sudo chmod +rx /var/www/cache/*
 sudo chmod 0777 /var/www/cache/Config/Memcache.php
 sudo chmod 0777 /var/www/cache/Temp/
 
 sudo service php5-fpm restart
 sudo service nginx restart
-mysqladmin -u root -proot create zf-cache
+sudo mysqladmin -u root -proot create zf-cache
 php /var/www/zf-cache/public/index.php orm:schema-tool:create
 php /var/www/zf-cache/public/index.php odm:schema:create
 
