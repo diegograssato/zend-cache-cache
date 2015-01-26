@@ -27,9 +27,9 @@ class IndexController extends AbstractActionController
         'senha'   => '1234',
         );
 
+
         $authentication = new AuthenticationService();
         $authentication->getStorage()->write($dados);
-
         var_dump($authentication->getIdentity());
 
         $dm = $this->getServiceLocator()->get('Doctrine\ODM\MongoDB\DocumentManager');

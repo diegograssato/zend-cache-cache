@@ -12,5 +12,16 @@
  */
 
 return array(
-    // ...
+    'session' => array(
+        'cache_expire' => 525949,
+        //'cookie_domain' => 'teste.com.br',
+        'cookie_lifetime' => 31536000,
+        //'cookie_path' => '/',
+        //'cookie_secure' => TRUE,
+        'gc_maxlifetime' => 31536000,
+        'remember_me_seconds' => 31536000,
+        'use_cookies' => TRUE,
+        'cookie_httponly'     => true,
+
+    )
 );

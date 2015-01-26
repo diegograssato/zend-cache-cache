@@ -90,6 +90,7 @@ sudo /usr/local/bin/composer self-update
 echo "Configurando FPM"
 sudo sed -i 's/user = www-data/user = vagrant/g' /etc/php5/fpm/pool.d/www.conf
 sudo sed -i 's/user www-data/user vagrant/g'  /etc/nginx/nginx.conf
+sudo sed -i 's/bind 127.0.0.1/bind 127.0.0.1 10.0.1.5/g' /etc/redis/redis.conf
 sudo sed -i 's/group = www-data/group = vagrant/g' /etc/php5/fpm/pool.d/www.conf
 sudo sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php5/fpm/pool.d/www.conf
 sudo sed -i 's/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php5/fpm/php.ini
@@ -100,6 +101,7 @@ chown vagrant.vagrant /vagrant -R
 sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/my.cnf
 mysql --password=root -u root --execute="GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 service mysql restart
+sudo service redis-server restart
 
 # MongoDB Config
 
