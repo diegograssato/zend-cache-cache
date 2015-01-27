@@ -1,0 +1,77 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Cidades
+ *
+ * @ORM\Table(name="cidades", indexes={@ORM\Index(name="fk_estado_id", columns={"estado_id"})})
+ * @ORM\Entity
+ */
+class Cidades
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nome", type="string", length=250, nullable=true)
+     */
+    private $nome;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="codigo_ibge", type="integer", nullable=true)
+     */
+    private $codigoIbge;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="populacao_2010", type="integer", nullable=true)
+     */
+    private $populacao2010;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="densidade_demo", type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $densidadeDemo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gentilico", type="string", length=250, nullable=true)
+     */
+    private $gentilico;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="area", type="decimal", precision=10, scale=3, nullable=true)
+     */
+    private $area;
+
+    /**
+     * @var \Application\Entity\Estados
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Estados")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estado_id", referencedColumnName="id")
+     * })
+     */
+    private $estado;
+
+
+}
