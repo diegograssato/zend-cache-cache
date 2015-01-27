@@ -13,4 +13,4 @@ clover.xml
 _reports
 .vagrant
 Vagrantfile
-bin
+bin/*

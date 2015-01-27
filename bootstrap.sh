@@ -9,6 +9,7 @@ sudo chown vagrant:vagrant /swapfile
 sudo chmod 0600 /swapfile
 sudo mkdir -p /var/www
 
+sudo echo "nameserver 8.8.8.8" > /etc/resolv.conf
 # Define diretivas que permitirão instalar MySQL sem perguntar senha
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
@@ -179,8 +180,8 @@ sudo chmod 0777 /var/www/cache/Temp/
 sudo service php5-fpm restart
 sudo service nginx restart
 sudo mysqladmin -u root -proot create zf-cache
-php /var/www/zf-cache/public/index.php orm:schema-tool:create
-php /var/www/zf-cache/public/index.php odm:schema:create
+# php /var/www/zf-cache/public/index.php orm:schema-tool:create
+# php /var/www/zf-cache/public/index.php odm:schema:create
 
 # Ao efetuar login (vagrant ssh), já entra no diretório '/vagrant'
 echo "cd /var/www/" | sudo tee -a /home/vagrant/.bashrc
