@@ -27,9 +27,9 @@ return array(
         'factories' => array(
             'doctrine.cache.my_redis' => function ($sm) {
                 $cache = new \Doctrine\Common\Cache\RedisCache();
-                $memcache = new \Redis();
-                $memcache->connect('127.0.0.1','6379');
-                $cache->setRedis($memcache);
+                $redis = new \Redis();
+                $redis->connect('127.0.0.1','6379');
+                $cache->setRedis($redis);
                 return $cache;
             },
             'doctrine.cache.my_memcache' => function ($sm) {

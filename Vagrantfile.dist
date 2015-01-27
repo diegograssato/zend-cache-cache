@@ -24,6 +24,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # allocate max 90% CPU
         virtualbox.customize ["modifyvm", :id, "--cpuexecutioncap", "95"]
         virtualbox.customize ["modifyvm", :id, "--memory", "2000"]
+        virtualbox.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+        virtualbox.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     end
 
 
