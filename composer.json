@@ -13,13 +13,15 @@
         "doctrine/doctrine-module": "0.*",
         "doctrine/doctrine-mongo-odm-module": "dev-master",
         "doctrine/doctrine-orm-module": "0.9.*@dev",
-        "zf-commons/zfc-user": "dev-master"
+        "zf-commons/zfc-user": "1.*",
+        "zf-commons/zfc-user-doctrine-orm": "dev-master"
 
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "dev-master"
     },
     "config": {
+        "process-timeout": 90000,
         "bin-dir": "bin"
     },
     "autoload": {

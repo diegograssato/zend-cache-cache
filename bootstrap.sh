@@ -8,6 +8,7 @@ sudo echo "/swapfile       none    swap    sw      0       0 " >> /etc/fstab
 sudo chown vagrant:vagrant /swapfile
 sudo chmod 0600 /swapfile
 sudo mkdir -p /var/www
+
 # Define diretivas que permitirão instalar MySQL sem perguntar senha
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
@@ -18,12 +19,6 @@ echo "America/Sao_Paulo" | sudo tee /etc/timezone
 echo -e "en_US.UTF-8 UTF-8\npt_BR ISO-8859-1\npt_BR.UTF-8 UTF-8" | sudo tee /var/lib/locales/supported.d/local
 sudo dpkg-reconfigure locales
 
-# Define diretiva que permitirá atualizar o grub sem ter que selecionar qual a partição de instalação (o ubuntu 14.04 atualiza o grub sozinho ao rodar 'upgrade')
-# mais info>: https://github.com/mitchellh/vagrant/issues/289
-echo "set grub-pc/install_devices /dev/sda" | debconf-communicate
-apt-get -y -qq update
-apt-get -y -qq upgrade
-
 # Adiciona repositório PPA do PHP 5.6
 #sudo add-apt-repository -y ppa:ondrej/php5 #php 5.5
 sudo add-apt-repository -y ppa:ondrej/php5-5.6
@@ -32,13 +27,27 @@ sudo add-apt-repository -y ppa:ondrej/php5-5.6
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 sudo echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
 
+# Instalações MongoDB
+
 # Atualiza lista de pacotes
 sudo apt-get update
-sudo apt-get dist-upgrade -y
+
+#Instalando MongoDB
+sudo apt-get install -y mongodb-org
+
+# torna o mongodb acessivel a partir de qualquer lugar
+sudo sed -i "s/bind_ip = .*/#bind_ip = 127.0.0.1/" /etc/mongod.conf
+
+# Habilita Text Search
+echo "setParameter = textSearchEnabled=true" | sudo tee -a /etc/mongod.conf
+
+#Criando pasta
+sudo mkdir /data
+sudo mkdir /data/db
+sudo chmod -R 777 /data/db
+sudo service mongod restart
+
 sudo  apt-get install -y \
-build-essential \
-g++ \
-make \
 php5 \
 php5-cli \
 php5-fpm \
@@ -63,7 +72,6 @@ nginx \
 vim \
 curl \
 wget \
-mongodb-org \
 php5-mongo \
 mysql-server
 
@@ -102,15 +110,6 @@ sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/my.cnf
 mysql --password=root -u root --execute="GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 service mysql restart
 sudo service redis-server restart
-
-# MongoDB Config
-
-# torna o mongodb acessivel a partir de qualquer lugar
-sudo sed -i "s/bind_ip = .*/#bind_ip = 127.0.0.1/" /etc/mongod.conf
-# Habilita Text Search
-echo "setParameter = textSearchEnabled=true" | sudo tee -a /etc/mongod.conf
-sudo service mongod restart
-
 
 # PHP Config
 

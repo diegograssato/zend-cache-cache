@@ -53,9 +53,6 @@ return array(
         ),
     ),
     'service_manager' => array(
-        'factories' => array(
-            'AuthenticationService' => 'Zend\Authentication\AuthenticationService'
-        ),
         'abstract_factories' => array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
@@ -96,32 +93,6 @@ return array(
         ),
     ),
 
-    'doctrine' => array(
-        'driver' => array(
-            __NAMESPACE__ . '_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity')
-            ),
-            'orm_default' => array(
-                'drivers' => array(
-                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
-                ),
-            ),
-
-            __NAMESPACE__ . '_document'=> array(
-                'class' => 'Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Document')
-            ),
-            'odm_default' => array(
-                'drivers' => array(
-                    __NAMESPACE__ . '\Document' => __NAMESPACE__ . '_document'
-                ),
-            ),
-
-        ),
-    ),
     // Placeholder for console routes
     'console' => array(
         'router' => array(
